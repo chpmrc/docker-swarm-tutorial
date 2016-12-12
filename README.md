@@ -15,5 +15,10 @@
 
 ## Open questions
 
+- How to get the project's source to the manager?
 - Best way to export SSH credentials from docker machine?
 - Share mounted volume across cluster instances?
+
+## Notes
+
+- Portainer does not support multi-host swarm, at the moment.
