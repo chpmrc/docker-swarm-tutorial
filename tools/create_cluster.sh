@@ -17,17 +17,8 @@ for i in $(seq 1); do
     docker-machine ssh worker${i} ${CMD}
 done
 
-# Create network
+# Note IP address of manager
+echo "# Auto-generated\nexport SWARM_MANAGER_IP_ADDR=$(docker-machine ip manager)" >> .env
 
-eval $(docker-machine env manager)
-
-docker network create --driver overlay --subnet=10.0.9.0/24 swarmnet
-
-# Optional: Portainer to manage the cluster
-# docker run -d -p 9000:9000 -v ~/.docker/machine/certs:/certs portainer/portainer -H tcp://$(docker-machine ip smanager):3376 --tlsverify
-docker service create \
-    --name portainer \
-    --publish 9000:9000 \
-    --constraint 'node.role == manager' \
-    --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
-    portainer/portainer --swarm
+# Regenerate TLS certificates if the public IP address of a node changed
+# docker-machine regenerate-certs -f ${DOCKER_MACHINE_NAME}

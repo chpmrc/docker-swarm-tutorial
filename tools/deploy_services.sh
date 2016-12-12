@@ -9,15 +9,9 @@ source .env
 # - The cluster is created
 # - The overlay network is created
 
-# docker network create -d overlay mydjangoapp_net
-
-# Regenerate TLS certificates if the public IP address of a node changed
-
-# docker-machine regenerate-certs -f ${DOCKER_MACHINE_NAME}
-
 # Build image
 
-docker build -t mydjangoapp_web -f Dockerfile .
+docker build -t mydjangoapp_web -f ${PROJECT_NAME}/Dockerfile ${PROJECT_NAME}
 
 # Push to private registry
 
