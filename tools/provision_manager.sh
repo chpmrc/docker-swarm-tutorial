@@ -3,7 +3,7 @@
 source .env
 
 # Create swarm network
-docker network create --driver overlay --subnet=10.0.9.0/24 swarmnet
+docker network create --driver overlay --subnet=10.0.9.0/24 ${PROJECT_NAME}
 
 # Optional: Portainer to manage the cluster
 # docker run -d -p 9000:9000 -v ~/.docker/machine/certs:/certs portainer/portainer -H tcp://$(docker-machine ip smanager):3376 --tlsverify

@@ -23,22 +23,24 @@ docker push ${SWARM_MANAGER_IP_ADDR}:5000/mydjangoapp_web
 
 docker service create \
     --publish 5432:5432 \
-    --network ${SWARM_NETWORK} \
+    --network swarmnet \
     --name db \
     --env POSTGRES_DB="${POSTGRES_DB}" \
     --env POSTGRES_USER="${POSTGRES_USER}" \
     --env POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
+    --constraint 'node.role == manager' \
     mdillon/postgis
 
 docker service create \
     --publish 8000:8000 \
-    --network ${SWARM_NETWORK} \
+    --network swarmnet \
     --name web \
     --env DJANGO_SECRET_KEY="${DJANGO_SECRET_KEY}" \
     --env DJANGO_SETTINGS_MODULE="${DJANGO_SETTINGS_MODULE}" \
     --env POSTGRES_DB="${POSTGRES_DB}" \
     --env POSTGRES_USER="${POSTGRES_USER}" \
     --env POSTGRES_PASSWORD="${POSTGRES_PASSWORD}" \
+    --constraint 'node.role == manager' \
     ${SWARM_MANAGER_IP_ADDR}:5000/mydjangoapp_web \
     python manage.py runserver 0:8000
 
