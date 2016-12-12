@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-# THIS SHOULD BE RUN ON THE SWARM MANAGER
+# Note: this should be run on the swarm manager
 
 source .env
 
 # Assumptions:
-# - The local registry is running
+# - The private registry is running
 # - The cluster is created
 # - The overlay network is created
 
@@ -26,16 +26,6 @@ docker tag mydjangoapp_web ${SWARM_MANAGER_IP_ADDR}:5000/mydjangoapp_web
 docker push ${SWARM_MANAGER_IP_ADDR}:5000/mydjangoapp_web
 
 # Create services (use `update` if not first deployment)
-
-# Optional: Portainer
-# docker run -d -p 9000:9000 -v ~/.docker/machine/certs:/certs portainer/portainer -H tcp://$(docker-machine ip smanager):3376 --tlsverify
-docker service create \
-    --name portainer \
-    --publish 9000:9000 \
-    --constraint 'node.role == manager' \
-    --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
-    portainer/portainer \
-    --swarm
 
 docker service create \
     --publish 5432:5432 \

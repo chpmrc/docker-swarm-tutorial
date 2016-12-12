@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Run command to join swarm cluster (from manager)
+source .env
 
 # Set the registry as insecure (no authentication, only available to local network)
 cat | sudo tee /etc/docker/daemon.json <<DOCKERCONFIG
